@@ -9,3 +9,13 @@
 </div>
 <p>Rest coming soon!</p>
 <img src="loading_bar_short.gif" width="500px">
+
+--
+
+<h2>More info <a href="https:/www.tinyurl.com/bcs-faq-howto">here</a></h2>
+
+<p>Credited Repositories</p>
+<ul>
+    <li><a href="https://github.com/nwcell/ics.js/">ics.js by nwcell</a>/li>
+    <li><a href="https://github.com/eligrey/FileSaver.js">Filesaver.js by Eli Grey</a></li>
+</ul>
