@@ -212,7 +212,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		const {start, end} = SEMESTER_START_END[semester] || SEMESTER_START_END["fa25"];
 		// debug: alert(JSON.stringify(tableData, null, 2));
 		generateICS(tableData, start, end);
-		redirectMainWindow("https://calendar.google.com/calendar/u/0/r/settings/export");
-		
+		setTimeout(() => {
+			redirectMainWindow("https://calendar.google.com/calendar/u/0/r/settings/export");
+		}, 300);
 	});
 });
