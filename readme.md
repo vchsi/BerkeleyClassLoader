@@ -1,6 +1,6 @@
 <div>
 
-<h1 style="padding: 10px 0; font-family: 'Inter', sans-serif; font-size: 2.2em; color: #012c88fa;">
+<h1 style="padding: 10px 0; font-family: 'Inter', sans-serif; font-size: 2.2em; color: #012c88fa;"><img src="ext_icon_48.png" style="display: inline; width='36px'"> 
     Berkeley Class Loader<span id="version-number-top" style="font-size: 0.35em;
         color: ;"> v6.7</span>
         <br>
