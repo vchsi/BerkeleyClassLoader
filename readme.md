@@ -1,12 +1,11 @@
 <div>
 
-<h1 style="padding: 10px 0; font-family: 'Inter', sans-serif; font-size: 2.2em; color: #012c88fa;">
+<h1 style="padding: 10px 0; font-family: 'Inter', sans-serif; font-size: 2.2em; color: #012c88fa;"><img src="ext_icon_48.png" style="display: inline; width='36px'"> 
     Berkeley Class Loader<span id="version-number-top" style="font-size: 0.35em;
-        color: ;">6.7</span>
+        color: ;"> v6.7</span>
         <br>
-    <p style="font-size: 0.5em; color: #FDB515">Berkeley Class Schedule to Google Calendar in 2 minutes!</p>
     </h1>
-
+<p style="font-size: 0.5em; color: #FDB515">Berkeley Class Schedule to Google Calendar in 2 minutes!</p>
 </div>
 <p>Rest coming soon!</p>
 <img src="loading_bar_short.gif" width="500px">
