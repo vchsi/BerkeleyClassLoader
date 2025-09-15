@@ -5,7 +5,17 @@
         color: ;"> v6.7</span>
         <br>
     </h1>
-<p style="font-size: 0.5em; color: #FDB515">Berkeley Class Schedule to Google Calendar in 2 minutes!</p>
+<h3 style="font-size: 0.5em; color: #FDB515">Berkeley Class Schedule to Google Calendar in 2 minutes!</h3>
 </div>
 <p>Rest coming soon!</p>
 <img src="loading_bar_short.gif" width="500px">
+
+--
+
+<h2>More info at tinyurl.com/bcs-faq-howto</h2>
+
+<p>Credited Repositories</p>
+<ul>
+    <li><a href="https://github.com/nwcell/ics.js/">ics.js by nwcell</a></li>
+    <li><a href="https://github.com/eligrey/FileSaver.js">Filesaver.js by Eli Grey</a></li>
+</ul>
