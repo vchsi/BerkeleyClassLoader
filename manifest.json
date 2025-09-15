@@ -1,0 +1,24 @@
+{
+  "name": "Berkeley Class Loader",
+  "description": "Converts your Berkeley Class Schedule to iCal/Google Calendar in just two minutes!",
+  "version": "6.7",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "gui.html",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "bcs_background.js"
+  },
+  "permissions": ["tabs"],
+  "host_permissions": [
+    "https://berkeley.collegescheduler.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://berkeley.collegescheduler.com/*"],
+      "js": ["bcs_script.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

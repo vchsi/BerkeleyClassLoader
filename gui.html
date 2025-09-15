@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bcs.css">
+    <script src="bcs.js" defer></script>
+    <script src="FileSaver.js" defer></script>
+    <script src="ics.min.js" defer></script>
+    <script src="ics_connector.js" defer></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <title>Berkeley Class Loader</title>
+</head>
+<body>
+    <div id="top-message-container">Message test.</div>
+    <h1>Berkeley Class Loader<span id="title-version-no">6.7</span></h1>
+    <select id="type_select_ex" class="type_select" style="display: none;">
+        <option value="lecture" selected>Lecture</option>
+        <option value="lab">Lab</option>
+        <option value="discussion">Discussion</option>
+        <option value="seminar">Seminar</option>
+        <option value="decal">DeCal</option>
+    </select>
+    <div id="semester-select">
+        <label for="semester">Select Semester:</label>
+        <select id="semester" name="semester">
+            <option value="fa25">Fall 2025</option>
+        </select>
+    </div>
+    <button id="convert">Click this to convert your schedule. (Make sure to load a schedule first!)</button>
+    <div id="schedule-overview">
+        <table id="schedule" class="initially-hidden">
+            <thead>
+                <tr>
+                    <th>Class Title</th>
+                    <th>Day</th>
+                    <th>Location</th>
+                    <th>Time</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Schedule rows will be populated here -->
+            </tbody>
+        </table>
+    </div>
+    <div id="export-button-container">
+        <button id="exportToCalendar" style="display: none;">Export to Google Calendar</button>
+        <button id="exportToIcal" style="display: none;">Export to iCal</button>
+    </div>
+    <hr>
+    <div class="notes">
+        <span id="version-number">v6.7</span> | 
+        <span id="faq-link">Need help?</span>
+    </div>
+    <div id="full-page-blur">
+        <div id="full-page-message">
+            <p id="full-page-message-text">Oh no! We can't do anything with this page.<br>
+            <a href="#" id="redirect-to-page">Return to the right page here.</a><br><br>(Make sure to login with CalCentral)</p>
+            <br>
+            <a href="#" id="need-help-blur">Need help?</a>
+        </div>
+    </div>
+</body>
+</html>
