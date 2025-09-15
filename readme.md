@@ -12,7 +12,7 @@
 
 --
 
-<h2>More info <a href="https:/www.tinyurl.com/bcs-faq-howto">here</a></h2>
+<h2>More info at tinyurl.com/bcs-faq-howto</h2>
 
 <p>Credited Repositories</p>
 <ul>
