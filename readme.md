@@ -16,6 +16,6 @@
 
 <p>Credited Repositories</p>
 <ul>
-    <li><a href="https://github.com/nwcell/ics.js/">ics.js by nwcell</a>/li>
+    <li><a href="https://github.com/nwcell/ics.js/">ics.js by nwcell</a></li>
     <li><a href="https://github.com/eligrey/FileSaver.js">Filesaver.js by Eli Grey</a></li>
 </ul>
