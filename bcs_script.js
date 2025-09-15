@@ -1,4 +1,7 @@
+/* bcs_script.js - Berkeley Calendar Loader service worker
 
+
+*/
 // Listen for messages from background (for content script)
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "getPageTitle") {

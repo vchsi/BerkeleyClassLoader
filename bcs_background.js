@@ -1,4 +1,7 @@
-// Background service worker for extension
+// bcs_background.js - Berkeley Calendar Loader background script
+// vchsi, 2025
+
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "generateCalendar") {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
