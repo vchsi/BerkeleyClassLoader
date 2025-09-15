@@ -1,7 +1,14 @@
+// ics_connector.js
+// Functions to generate ICS file from calendar object
+// Uses ics.js library by nwcell
+
+// vchsi, 2025
+
 // Function to find the first and last occurrence of a specific weekday
 function findWeekdayInRange(start, end, targetDay) {
     const daysOfWeek = ["su", "mo", "tu", "we", "th", "fr", "sa"];
     const targetIndex = daysOfWeek.indexOf(targetDay.toLowerCase());
+
 
     if (targetIndex === -1) {
         throw new Error("Invalid weekday: " + targetDay);
@@ -19,7 +26,6 @@ function findWeekdayInRange(start, end, targetDay) {
 
     return { firstOccurrence, lastOccurrence };
 }
-
 // Utility function to convert a Date object to 'MM/DD/YYYY' format
 // needed for the ics.js library requirements
 function formatDateToMMDDYYYY(date) {
