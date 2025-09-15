@@ -5,7 +5,7 @@
         color: ;"> v6.7</span>
         <br>
     </h1>
-<p style="font-size: 0.5em; color: #FDB515">Berkeley Class Schedule to Google Calendar in 2 minutes!</p>
+<h3 style="font-size: 0.5em; color: #FDB515">Berkeley Class Schedule to Google Calendar in 2 minutes!</h3>
 </div>
 <p>Rest coming soon!</p>
 <img src="loading_bar_short.gif" width="500px">
