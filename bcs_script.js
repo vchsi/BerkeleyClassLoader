@@ -26,7 +26,7 @@ function getClasses(){
     let dayArray = {}; 
     i=0;
     Array.from(classes).forEach((element) => {
-        dayArray[i] = element.children.slice(1); 
+        dayArray[i] = Array.from(element.children).slice(1); 
         i++;
     })
     return dayArray;
@@ -52,10 +52,9 @@ function getSchedule(){
 
     for ([day, classes] of Object.entries(dayArr)){
         Array.from(classes).forEach((curclass) => {
-            curString = curclass.ariaLabel
-            result = seperateClasses(curString);
-            classTitle = result[0]
-            console.log(classTitle)
+            result = seperateClasses(curclass.ariaLabel);
+            classTitle = result[0];
+            console.log(classTitle);
             if(Object.keys(classesObject).includes(classTitle)){
                 classesObject[classTitle].push(result)
             } else {
