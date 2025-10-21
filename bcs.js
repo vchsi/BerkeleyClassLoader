@@ -4,7 +4,7 @@ bcs.js - Javascript for Berkeley Class Scheduler popup
 This file handles the interactions between the popup GUI and the background service worker. This also handles the popup's display logic.
 I will connect this to another file for the calendar generation functions (with ics.js).
 */
-
+// vchsi, 2025
 // i should really use jquery here, but idk why i dont
 
 // Add event listener to button in popup to call background service worker
@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	const ICSDAYS = {"monday": "mo", "tuesday": "tu", "wednesday": "we", "thursday": "th", "friday": "fr"};
 	const SCHEDULER_LINK = "https://berkeley.collegescheduler.com/entry";
 	const SEMESTER_START_END = {
-		"fa25": {start: "08/27/2025", end: "12/20/2025"}
+		"fa25": {start: "08/27/2025", end: "12/20/2025"},
+		"sp26": {start: "01/19/2026", end: "05/11/2026"},
 	};
 
 	// provide functionality to the links (without messing with the service workers too much)

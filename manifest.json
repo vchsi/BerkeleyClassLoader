@@ -1,7 +1,7 @@
 {
   "name": "Berkeley Class Loader",
   "description": "Converts your Berkeley Class Schedule to iCal/Google Calendar in just two minutes!",
-  "version": "6.7",
+  "version": "6.7.1",
   "manifest_version": 3,
   "icons": {
     "48": "ext_icon_48.png",

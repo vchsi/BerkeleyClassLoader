@@ -1,7 +1,6 @@
-/* bcs_script.js - Berkeley Calendar Loader service worker
+/* bcs_script.js - Berkeley Calendar Loader service worker */
+// vchsi, 2025
 
-
-*/
 // Listen for messages from background (for content script)
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "getPageTitle") {
@@ -27,7 +26,7 @@ function getClasses(){
     let dayArray = {}; 
     i=0;
     Array.from(classes).forEach((element) => {
-        dayArray[i] = element.children; 
+        dayArray[i] = element.children.slice(1); 
         i++;
     })
     return dayArray;
