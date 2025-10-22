@@ -1,8 +1,8 @@
 <div>
 
-<h1 style="padding: 10px 0; font-family: 'Inter', sans-serif; font-size: 2.5em; color: #012c88fa;"><img src="ext_icon_48.png" style="display: inline; width='36px'"> 
+<h1 style="padding: 10px 0; font-family: 'Inter', sans-serif; font-size: 3em; color: #012c88fa;"><img src="ext_icon_48.png" style="display: inline; width='36px'"> 
     Berkeley Class Loader<span id="version-number-top" style="font-size: 0.35em;
-        color: ;"> v6.7</span>
+        color: ;"> v6.7.2</span>
         <br>
     </h1>
 <img src="md_banner.png">
