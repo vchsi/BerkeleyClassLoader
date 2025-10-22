@@ -7,9 +7,10 @@
     </h1>
 <img src="md_banner.png">
 </div>
+
 # Quick Start
 
-Thanks for installing Berkeley Class Loader! Your class scheduling is going to get so much easier after this.
+Thanks for installing Berkeley Class Loader! Setting up your calendar is going to get so much easier after this.
 
 ## A better version of this doc:
 <a href="https://tinyurl.com/bcs-faq-howto">Google Doc</a>
