@@ -15,16 +15,14 @@
 
 Thanks for installing Berkeley Class Loader! Your class scheduling is going to get so much easier after this.
 
+## A better version of this doc:
+<a href="https://tinyurl.com/bcs-faq-howto">Google Doc</a>
 
 ## Getting your schedule loaded
 
 The first step is to load your schedule. First, go to your class scheduler tool and load the preferred schedule. It should look like this:
 
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
+[Image goes here]
 ![alt_text](images/image1.png "image_tooltip")
 
 
@@ -37,9 +35,8 @@ If you want to designate a class section as anything other than a lecture, you c
 
 
 
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
-
+[dropdown image goes here]
 ![alt_text](images/image2.png "image_tooltip")
 
 
@@ -58,9 +55,6 @@ Here comes the fun part. Once you’ve reviewed that your classes are accurate a
     (If you’re confused, it's also shown down here too!)
 
 
-
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href="https://github.com/evbacher/gd2md-html/wiki/Google-Drawings-by-reference">Google Drawings by reference</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![drawing](https://docs.google.com/drawings/d/12345/export/png)
