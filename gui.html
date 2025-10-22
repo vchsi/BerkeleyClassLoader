@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="bcs.css">
     <script src="bcs.js" defer></script>
     <script src="FileSaver.js" defer></script>
-    <script src="ics.min.js" defer></script>
+    <script src="ics.js" defer></script>
     <script src="ics_connector.js" defer></script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,9 +49,13 @@
             </tbody>
         </table>
     </div>
+    <div id="berkeleytime-box" class="initially-hidden">
+        <input type="checkbox" id="berkeleytime-checkbox">
+        <label for="berkeleytime-checkbox">use <b style="color: blue">Berkeley</b><b style="color: gold">Time</b> (starts 10 minutes after)</label>
+    </div>
     <div id="export-button-container">
         <button id="exportToCalendar" style="display: none;">Export to Google Calendar</button>
-        <button id="exportToIcal" style="display: none;">Export to iCal</button>
+        <button id="exportToIcal" style="display: none;">Export to Apple Calendar</button>
     </div>
     <hr>
     <div class="notes">
@@ -61,7 +65,7 @@
     <div id="full-page-blur">
         <div id="full-page-message">
             <p id="full-page-message-text">Oh no! We can't do anything with this page.<br>
-            <a href="#" id="redirect-to-page">Return to the right page here.</a><br><br>(Make sure to login with CalCentral)</p>
+            <a href="#" id="redirect-to-page">Return to the right page here.</a><br><br>(Make sure to <a href="#" id="login-with-calcentral">login with CalCentral</a>)</p>
             <br>
             <a href="#" id="need-help-blur">Need help?</a>
         </div>

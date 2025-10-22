@@ -17,7 +17,7 @@ h1 {
     padding: 10px 0;
     text-align: center;
     font-family: "Inter", sans-serif;
-    font-size: 2.4em;
+    font-size: 2.6em;
     color: #012c88fa;
 }
 #title-version-no{
@@ -50,6 +50,10 @@ h1 {
 }
 .initially-hidden {
     display: none;
+}
+#berkeleytime-box{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 #top-message-container{
     width: 100vw;

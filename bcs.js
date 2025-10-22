@@ -1,5 +1,5 @@
 /* 
-bcs.js - Javascript for Berkeley Class Scheduler popup
+bcs.js - Javascript for Berkeley Class Loader popup
 ---
 This file handles the interactions between the popup GUI and the background service worker. This also handles the popup's display logic.
 I will connect this to another file for the calendar generation functions (with ics.js).
@@ -17,12 +17,17 @@ document.addEventListener("DOMContentLoaded", function() {
 		"sp26": {start: "01/19/2026", end: "05/11/2026"},
 	};
 
+
+
 	// provide functionality to the links (without messing with the service workers too much)
 	document.getElementById("redirect-to-page").addEventListener("click", function(e) {
 		e.preventDefault();
 		chrome.tabs.create({ url: SCHEDULER_LINK });
 	});
-
+	document.getElementById("login-with-calcentral").addEventListener("click", function(e) {
+		e.preventDefault();
+		chrome.tabs.create({ url: "https://calcentral.berkeley.edu/academics" });
+	});
 	document.getElementById("need-help-blur").addEventListener("click", function(e) {
 		e.preventDefault();
 		chrome.tabs.create({ url: "https://tinyurl.com/bcs-faq-howto" });
@@ -33,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		chrome.tabs.create({ url: "https://tinyurl.com/bcs-faq-howto" });
 	});
 
+	// on load, check if we are on the right page
 	setTimeout(() => {
 		chrome.runtime.sendMessage({action: "checkPage"}, function(response) {
 			const top_message = document.getElementById("top-message-container");
@@ -152,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			classTitleCell.textContent = className;
 			daysCell.textContent = days.join(", ");
 			locationCell.textContent = location;
-			timeCell.textContent = `${startTime} - ${endTime}`;
+			timeCell.textContent = `${startTime} - ${rollOverTime(endTime, 1)}`; // just to make it clean
 
 			// fill type cell
 			let newType = document.getElementById("type_select_ex").cloneNode(true);
@@ -163,6 +169,75 @@ document.addEventListener("DOMContentLoaded", function() {
 		table.style.display = "block";
 		// debug: alert(JSON.stringify(classesObj, null, 2));
 	}
+
+	function rollOverTime(timeString, minuteOffset){ // returns another time string
+		let [hour, min] = timeString.split(":")
+		let timeSuffix = min.slice(2)
+		min = min.slice(0,2)
+		const TIME_SUFFIXES = ["am", "pm"]
+
+		let [hourInt, minInt] = [parseInt(hour), parseInt(min)]
+		if(isNaN(hourInt) || isNaN(minInt)){
+			return "Invalid"
+		}
+
+		// handle minutes addition / subtraction
+		let newMinutes = minInt + minuteOffset
+		if(newMinutes >= 60){
+			newHours = Math.floor(newMinutes / 60)
+			newMinutes = newMinutes % 60
+		} else if (newMinutes < 0){
+			newHours = Math.floor(newMinutes / 60)
+			newMinutes = (newMinutes % 60) + 60
+		} else {
+			newHours = 0
+		}
+		newHours = newHours + hourInt
+		// handle am/pm rollovers
+		if(newHours >= 12){
+		    if(newHours !== hourInt && hourInt !== 12){
+    			timeSuffix = TIME_SUFFIXES[(TIME_SUFFIXES.indexOf(timeSuffix)+1) % 2]
+		    }
+		}
+		if (newHours > 12){
+		    newHours = newHours % 12
+		}
+
+		// rebuild time string
+		return String(newHours) + ":" + String(newMinutes).padStart(2, "0") + timeSuffix
+
+	}
+
+	function updateTimes(table, offsetMinutes) { // offsetMinutes: +10 for berkeleytime, -10 for normal time
+		for(const row of table.rows){
+			const timeCell = row.cells[3];
+			if(!timeCell) continue; // skip header
+			const timeText = timeCell.textContent;
+			const [startTime, endTime] = timeText.split(" - ");
+			if(startTime == undefined || endTime == undefined){
+				continue
+			}
+			// debug: alert(startTime + " " + endTime)
+			// lets be real, no class is probably going to start 12:50, so we probably won't have to roll over the pms
+			// handle it just for redundancy's sake
+
+			// don't gotta roll over endtime
+			const newStartTime = rollOverTime(startTime, offsetMinutes);
+			timeCell.textContent = `${newStartTime} - ${endTime}`;
+			
+		}
+	}
+
+	// handle berkeley time checkbox
+	document.getElementById("berkeleytime-checkbox").addEventListener("change", function(e) {
+		const table = document.getElementById("schedule");
+		if (e.target.checked) {
+			updateTimes(table, 10); // add 10 minutes
+		} else {
+			updateTimes(table, -10); // subtract 10 minutes
+		}
+	});
+	// generate calendar button event listener
 	const btn = document.querySelector("button#convert");
 	const top_message = document.getElementById("top-message-container");
 	if (btn) {
@@ -187,6 +262,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					if (exportBtn) exportBtn.style.display = "inline-block";
 					const exportIcalBtn = document.getElementById("exportToIcal");
 					if (exportIcalBtn) exportIcalBtn.style.display = "inline-block";
+					document.getElementById("berkeleytime-box").style.display = "block";
+					window.scrollTo(0, document.body.scrollHeight)
 				} else {
 					//console.warn("Generation failed:", response.error);
 					top_message.innerHTML = "Failed: " + (response.error || "Unknown error");
@@ -204,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		const semester = document.getElementById("semester").value;
 		const {start, end} = SEMESTER_START_END[semester] || SEMESTER_START_END["fa25"];
 		// debug: alert(JSON.stringify(tableData, null, 2));
-		generateICS(tableData, start, end);
+		generateICS(tableData, start, end, calendarName="doubleclick_me");
 	});
 	const exportGoogleBtn = document.getElementById("exportToCalendar");
 	exportGoogleBtn.addEventListener("click", function() {

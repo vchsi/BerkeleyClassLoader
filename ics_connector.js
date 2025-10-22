@@ -37,7 +37,7 @@ function formatDateToMMDDYYYY(date) {
 
 // takes in calendar object and generates ICS file content
 // calendar object format: from getTableValuesIntoObject() from bcs.js
-function generateICS(calendarObj, startSemester="08/19/2025", endSemester="12/20/2025"){ // startSemester, endSemester in "MM/DD/YYYY" format
+function generateICS(calendarObj, startSemester="08/19/2025", endSemester="12/20/2025", calendar_name="import_me_into_calendar"){ // startSemester, endSemester in "MM/DD/YYYY" format
     if(typeof calendarObj !== "object"){
         console.error("Invalid calendar object");
         return;
@@ -79,7 +79,7 @@ function generateICS(calendarObj, startSemester="08/19/2025", endSemester="12/20
             
         }
     }
-    calendar.download("import_this_into_calendar");
+    calendar.download(calendar_name);
 
     
 

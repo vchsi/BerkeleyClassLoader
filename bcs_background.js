@@ -1,4 +1,4 @@
-// bcs_background.js - Berkeley Calendar Loader background script
+// bcs_background.js - Berkeley Class Loader background script
 // vchsi, 2025
 
 
