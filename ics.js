@@ -1,6 +1,7 @@
 // ics.js regular
 // by nwcell (https://github.com/nwcell/ics.js)
 // Modified for Berkeley Class Loader
+// this was fixed for 6.7.3 to include timezones with Claude 4.0 (Approx. 20 lines changed)
 
 var ics = function(uidDomain, prodId) {
   'use strict';
@@ -11,17 +12,62 @@ var ics = function(uidDomain, prodId) {
   }
 
   if (typeof uidDomain === 'undefined') { uidDomain = 'default'; }
-  if (typeof prodId === 'undefined') { prodId = '-//vchsi//BerkeleyClassLoader//EN'; }
+  if (typeof prodId === 'undefined') { prodId = 'BerkeleyClassLoader'; }
 
   var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
   var calendarEvents = [];
   var calendarStart = [
     'BEGIN:VCALENDAR',
     'PRODID:' + prodId,
-    'VERSION:2.0'
+    'VERSION:2.0',
+    'BEGIN:VTIMEZONE',
+    'TZID:America/Los_Angeles',
+    'BEGIN:DAYLIGHT',
+    'TZOFFSETFROM:-0800',
+    'TZOFFSETTO:-0700',
+    'TZNAME:PDT',
+    'DTSTART:20070311T020000',
+    'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU',
+    'END:DAYLIGHT',
+    'BEGIN:STANDARD',
+    'TZOFFSETFROM:-0700',
+    'TZOFFSETTO:-0800',
+    'TZNAME:PST',
+    'DTSTART:20071104T020000',
+    'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU',
+    'END:STANDARD',
+    'END:VTIMEZONE'
   ].join(SEPARATOR);
   var calendarEnd = SEPARATOR + 'END:VCALENDAR';
   var BYDAY_VALUES = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+
+  // helper functions
+  function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function formatDateTimeLocal(date) {
+    var year = ("0000" + date.getFullYear().toString()).slice(-4);
+    var month = ("00" + (date.getMonth() + 1).toString()).slice(-2);
+    var day = ("00" + date.getDate().toString()).slice(-2);
+    var hours = ("00" + date.getHours().toString()).slice(-2);
+    var minutes = ("00" + date.getMinutes().toString()).slice(-2);
+    var seconds = ("00" + date.getSeconds().toString()).slice(-2);
+    return year + month + day + 'T' + hours + minutes + seconds;
+  }
+
+  function formatDateTimeUTC(date) {
+    var year = ("0000" + date.getUTCFullYear().toString()).slice(-4);
+    var month = ("00" + (date.getUTCMonth() + 1).toString()).slice(-2);
+    var day = ("00" + date.getUTCDate().toString()).slice(-2);
+    var hours = ("00" + date.getUTCHours().toString()).slice(-2);
+    var minutes = ("00" + date.getUTCMinutes().toString()).slice(-2);
+    var seconds = ("00" + date.getUTCSeconds().toString()).slice(-2);
+    return year + month + day + 'T' + hours + minutes + seconds + 'Z';
+  }
 
   return {
     /**
@@ -107,94 +153,60 @@ var ics = function(uidDomain, prodId) {
         }
       }
 
-      //TODO add time and time zone? use moment to format?
       var start_date = new Date(begin);
       var end_date = new Date(stop);
       var now_date = new Date();
 
-      var start_year = ("0000" + (start_date.getFullYear().toString())).slice(-4);
-      var start_month = ("00" + ((start_date.getMonth() + 1).toString())).slice(-2);
-      var start_day = ("00" + ((start_date.getDate()).toString())).slice(-2);
-      var start_hours = ("00" + (start_date.getHours().toString())).slice(-2);
-      var start_minutes = ("00" + (start_date.getMinutes().toString())).slice(-2);
-      var start_seconds = ("00" + (start_date.getSeconds().toString())).slice(-2);
+      // Format dates with timezone info
+      var start_formatted = formatDateTimeLocal(start_date);
+      var end_formatted = formatDateTimeLocal(end_date);
+      var now_formatted = formatDateTimeUTC(now_date);
 
-      var end_year = ("0000" + (end_date.getFullYear().toString())).slice(-4);
-      var end_month = ("00" + ((end_date.getMonth() + 1).toString())).slice(-2);
-      var end_day = ("00" + ((end_date.getDate()).toString())).slice(-2);
-      var end_hours = ("00" + (end_date.getHours().toString())).slice(-2);
-      var end_minutes = ("00" + (end_date.getMinutes().toString())).slice(-2);
-      var end_seconds = ("00" + (end_date.getSeconds().toString())).slice(-2);
-
-      var now_year = ("0000" + (now_date.getFullYear().toString())).slice(-4);
-      var now_month = ("00" + ((now_date.getMonth() + 1).toString())).slice(-2);
-      var now_day = ("00" + ((now_date.getDate()).toString())).slice(-2);
-      var now_hours = ("00" + (now_date.getHours().toString())).slice(-2);
-      var now_minutes = ("00" + (now_date.getMinutes().toString())).slice(-2);
-      var now_seconds = ("00" + (now_date.getSeconds().toString())).slice(-2);
-
-      // Since some calendars don't add 0 second events, we need to remove time if there is none...
-      var start_time = '';
-      var end_time = '';
-      if (start_hours + start_minutes + start_seconds + end_hours + end_minutes + end_seconds != 0) {
-        start_time = 'T' + start_hours + start_minutes + start_seconds;
-        end_time = 'T' + end_hours + end_minutes + end_seconds;
-      }
-      var now_time = 'T' + now_hours + now_minutes + now_seconds;
-
-      var start = start_year + start_month + start_day + start_time;
-      var end = end_year + end_month + end_day + end_time;
-      var now = now_year + now_month + now_day + now_time;
-
-      // recurrence rrule vars
-      var rruleString;
+      // Build RRULE if provided
+      var rrule_line = '';
       if (rrule) {
         if (rrule.rrule) {
-          rruleString = rrule.rrule;
+          rrule_line = rrule.rrule;
         } else {
-          rruleString = 'RRULE:FREQ=' + rrule.freq;
-
+          rrule_line = 'RRULE:FREQ=' + rrule.freq;
           if (rrule.until) {
-            var uDate = new Date(Date.parse(rrule.until)).toISOString();
-            rruleString += ';UNTIL=' + uDate.substring(0, uDate.length - 13).replace(/[-]/g, '') + '000000Z';
+            var until_date = new Date(Date.parse(rrule.until));
+            var until_formatted = formatDateTimeUTC(until_date);
+            rrule_line += ';UNTIL=' + until_formatted;
           }
-
           if (rrule.interval) {
-            rruleString += ';INTERVAL=' + rrule.interval;
+            rrule_line += ';INTERVAL=' + rrule.interval;
           }
-
           if (rrule.count) {
-            rruleString += ';COUNT=' + rrule.count;
+            rrule_line += ';COUNT=' + rrule.count;
           }
-
           if (rrule.byday && rrule.byday.length > 0) {
-            rruleString += ';BYDAY=' + rrule.byday.join(',');
+            rrule_line += ';BYDAY=' + rrule.byday.join(',');
           }
         }
       }
 
-      var stamp = new Date().toISOString();
-
+      // Build event
       var calendarEvent = [
         'BEGIN:VEVENT',
-        'UID:' + calendarEvents.length + "@" + uidDomain,
+        'UID:' + uuidv4() + '@' + uidDomain,
         'CLASS:PUBLIC',
         'DESCRIPTION:' + description,
-        'DTSTAMP;VALUE=DATE-TIME:' + now,
-        'DTSTART;VALUE=DATE-TIME:' + start,
-        'DTEND;VALUE=DATE-TIME:' + end,
+        'DTSTAMP:' + now_formatted,
+        'DTSTART;TZID=America/Los_Angeles:' + start_formatted,
+        'DTEND;TZID=America/Los_Angeles:' + end_formatted,
         'LOCATION:' + location,
         'SUMMARY;LANGUAGE=en-us:' + subject,
         'TRANSP:TRANSPARENT',
         'END:VEVENT'
       ];
 
-      if (rruleString) {
-        calendarEvent.splice(4, 0, rruleString);
+      // Insert RRULE if present
+      if (rrule_line) {
+        calendarEvent.splice(5, 0, rrule_line);
       }
 
       calendarEvent = calendarEvent.join(SEPARATOR);
-
       calendarEvents.push(calendarEvent);
       return calendarEvent;
     },

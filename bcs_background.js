@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             const tabId = tabs[0].id;
             chrome.tabs.sendMessage(tabId, {action: "generateCalendar"}, function(response) {
                 if (chrome.runtime.lastError) {
-                    sendResponse({status: "fail", error: chrome.runtime.lastError.message});
+                    sendResponse({status: "fail", error: chrome.runtime.lastError.message + ". Try reloading"});
                     return;
                 }
                 if (!response) {

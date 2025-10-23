@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 function generateCalendar() {
     // TODO: Implement calendar generation logic
     console.log("generateCalendar called in service worker");
-    if(document.getElementsByClassName("css-1erwsnx-blockCalendarCss").length == 0){
+    if(document.getElementsByClassName("css-1erwsnx-blockCalendarCss").length == 0 || document.querySelectorAll("table").length == 0){
         return {"error": "No schedule found on page"};
     }
     return parseClassObject(getClassesFromTable());
@@ -43,7 +43,7 @@ function getClassesFromTable(){
 
     for (row of rows){
         main_col = row.getElementsByTagName("tr")[0]
-        cur_crn = -1
+        cur_crn = null
         vals_since_crn = -1
         for (child of main_col.children){
             /// console.log(child.innerText)
@@ -76,14 +76,12 @@ function parseClassObject(class_object){
     
     returnObj = {}
     // format: [key = crn]: [subject, number, time]
-    for (const [crn, details] of Object.entries(class_object)){
-        if(details.includes("")){
+    for (const details of Object.values(class_object)){
+        if(details.includes("") || details.length != 3){
             // blank. forget it
             continue;
         }
-        subject = details[0]
-        number = details[1]
-        timesArr = details[2]
+        const [subject, number, timesArr] = details
         days = []
         const className = subject + " " + number
         if(!Object.keys(returnObj).includes(className)){
@@ -120,5 +118,5 @@ function parseClassObject(class_object){
 }
 
 // test
-console.log(parseClassObject(getClassesFromTable()))
+// console.log(parseClassObject(getClassesFromTable()))
 
