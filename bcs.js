@@ -16,6 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		"fa25": {start: "08/27/2025", end: "12/20/2025"},
 		"sp26": {start: "01/19/2026", end: "05/11/2026"},
 	};
+	const COMMON_ABBREVIATIONS = {"Mathematics": "MATH", "Computer Science": "CS", "Electrical Engineering": "EECS", "Data Science, Undergraduate": "DATA", "Statistics": "STAT",
+		"Economics": "ECON", "Molecular and Cell Biology": "MCB", "Chemical and Biomolecular Engineering": "CBE", "Physics": "PHYS",
+		"Integrative Biology": "IB", "Environmental Science Policy and Management": "ESPM", "Mechanical Engineering": "ME", "Civil and Environmental Engineering": "CEE",
+		"Psychology": "PSYCH", "Nutritional Sciences and Toxicology": "NST", "Political Science": "POL SCI",
+		"History": "HIST", "Sociology": "SOC"
+	};
 
 
 
@@ -37,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		e.preventDefault();
 		chrome.tabs.create({ url: "https://tinyurl.com/bcs-faq-howto" });
 	});
+	
 
 	// on load, check if we are on the right page
 	setTimeout(() => {
@@ -67,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	function getTableValuesIntoObject(table){
 		const obj = {};
 		for(const row of table.rows){
-			const className = row.cells[0].textContent;
+			const className = row.cells[0].textContent; // to undo any dash replacements
 			const day = row.cells[1].textContent;
 			const location = row.cells[2].textContent;
 			const time = row.cells[3].textContent;
