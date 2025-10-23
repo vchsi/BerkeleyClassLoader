@@ -46,15 +46,11 @@ Here comes the fun part. Once you’ve reviewed that your classes are accurate a
 
 
 
-1. Click the **Export to Apple Calendar **or **Export to Google Calendar **button (depending on which one you want). That should prompt you to download a .ics file. Keep track of that.
+1. Click the **Export to Apple Calendar** or **Export to Google Calendar** button (depending on which one you want). That should prompt you to download a .ics file. Keep track of that.
 2. If you’ve clicked on **Export to Google Calendar**, the extension should redirect you to a Google Calendar page. Upload the downloaded .ics file where it prompts you to. 
 
     (If you’re confused, it's also shown down here too!)
-
-
-
-
-![drawing](https://docs.google.com/drawings/d/12345/export/png)
+[Image tbd]
 
 
 
