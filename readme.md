@@ -42,7 +42,7 @@ If you want to designate a class section as anything other than a lecture, you c
 
 Here comes the fun part. Once you’ve reviewed that your classes are accurate and set the types, you can load them into Google Calendar or Apple Calendar.
 
-(Important: Turn off **Ask where to save each file before downloading **before exporting.)
+(Important: Turn off **Ask where to save each file before downloading** before exporting, or else the extension won't work properly.)
 
 
 
