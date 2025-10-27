@@ -8,6 +8,9 @@ I will connect this to another file for the calendar generation functions (with 
 // i should really use jquery here, but idk why i dont
 
 // Add event listener to button in popup to call background service worker
+
+// 6.7.3a: Fixed bug where invalid time/room formats caused errors (classic example: 61a fake sunday labs) + included checkboxes to include/exclude classes from export
+
 document.addEventListener("DOMContentLoaded", function() {
 	const DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 	const ICSDAYS = {"monday": "mo", "tuesday": "tu", "wednesday": "we", "thursday": "th", "friday": "fr"};
