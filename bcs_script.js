@@ -96,6 +96,7 @@ function parseClassObject(class_object){
         for (timesEl of timesArr){
             part = 1 // <- part: 1 (beginning of string, have to seperate days from times + room). part: 2 (working with string)
             times = timesEl.innerText
+            push = true
             for (let i = 0; i < times.length; i++){
                 // part 1: Getting the days
                 if(part == 1){
@@ -105,12 +106,19 @@ function parseClassObject(class_object){
                     }
                 } else if (part == 2){
                     [classTime, room] = times.slice(i-1).split(" at ")
+                    if(!classTime || !room){
+                        // invalid time/room format
+                        push = false
+                        break
+                    }
                     console.log(classTime + " " + room + " " + days + " " + className)
                     break
                 }
             }
             for (day of days){
-                returnObj[className].push([className, `${room} ${day.toLowerCase().replace(" ","").replace(",","")} from ${classTime}`])
+                if(push){
+                    returnObj[className].push([className, `${room} ${day.toLowerCase().replace(" ","").replace(",","")} from ${classTime}`])
+                }
             }
         }
     }

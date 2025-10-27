@@ -117,6 +117,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		for (const [className, sessions] of Object.entries(calendarObj)) {
 			for (const session of sessions) {
 				let details = session[1];
+				if(!details){
+					continue
+				}
 				let day = details.match(/(monday|tuesday|wednesday|thursday|friday)/)[0];
 				let startTime = details.match(/from (.+) to (.+)/).slice(1)[0];
 				let endTime = details.match(/to (.+)/)[1];
