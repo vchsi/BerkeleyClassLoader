@@ -72,34 +72,39 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	}, 100);
 	function getTableValuesIntoObject(table){
-		const obj = {};
-		for(const row of table.rows){
-			const className = row.cells[0].textContent; // to undo any dash replacements
-			const day = row.cells[1].textContent;
-			const location = row.cells[2].textContent;
-			const time = row.cells[3].textContent;
-			const typeSelect = row.cells[4].querySelector("select");
-			const type = typeSelect ? typeSelect.value : "Lecture";
-			let daysArr = [];
-			// for classesObj (unbundled)
-			if(!obj[className]){
-				obj[className] = [];
-			}
-			for (const d of day.split(", ").map(d => d.toLowerCase())) {
-				if (DAYS.includes(d)) {
-					daysArr.push(ICSDAYS[d]);
-				}
-			}
-			obj[className].push({
-				day: daysArr,
-				location: location,
-				startTime: time.split(" - ")[0] || "",
-				endTime: time.split(" - ")[1] || "",
-				type: type
-			});
-		}
-		return obj;
-	}
+        const obj = {};
+        for(const row of table.rows){
+            if(row.rowIndex === 0) continue;
+            const includeBox = row.querySelector("input.schedule-include-checkbox");
+            if(includeBox && !includeBox.checked) continue;
+            if(row.cells.length < 6) continue;
+
+            const className = row.cells[1].textContent;
+            const day = row.cells[2].textContent;
+            const location = row.cells[3].textContent;
+            const time = row.cells[4].textContent;
+            const typeCell = row.cells[5];
+            const typeSelect = typeCell ? typeCell.querySelector("select") : null;
+            const type = typeSelect ? typeSelect.value : "Lecture";
+            let daysArr = [];
+            if(!obj[className]){
+                obj[className] = [];
+            }
+            for (const d of day.split(", ").map(d => d.toLowerCase())) {
+                if (DAYS.includes(d)) {
+                    daysArr.push(ICSDAYS[d]);
+                }
+            }
+            obj[className].push({
+                day: daysArr,
+                location: location,
+                startTime: time.split(" - ")[0] || "",
+                endTime: time.split(" - ")[1] || "",
+                type: type
+            });
+        }
+        return obj;
+    }
 	function redirectMainWindow(link){
 		chrome.tabs.create({ url: link });
 	}
@@ -110,7 +115,20 @@ document.addEventListener("DOMContentLoaded", function() {
 			return;
 		}
 		const table = document.getElementById("schedule");
-		const classesObj = {}; // classes organized by name (no repeats too)
+		const classesObj = {};
+
+		const ensureIncludeHeader = (tbl) => {
+			const headerRow = tbl.rows[0];
+			if(!headerRow) return;
+			if(headerRow.querySelector(".schedule-include-label")) return;
+			const firstCell = headerRow.cells[0];
+			const cellTag = (firstCell && firstCell.tagName === "TH") ? "th" : "td";
+			const includeHeader = document.createElement(cellTag);
+			includeHeader.className = "schedule-include-label";
+			includeHeader.textContent = "Include";
+			headerRow.insertBefore(includeHeader, firstCell || null);
+		};
+		ensureIncludeHeader(table);
 
 		// Bundling for table display
 		const bundled = {};
@@ -158,13 +176,19 @@ document.addEventListener("DOMContentLoaded", function() {
 		for (const key in bundled) {
 			const row = table.insertRow(-1);
 			const { className, location, startTime, endTime, days } = bundled[key];
-			const classTitleCell = row.insertCell(0);
-			const daysCell = row.insertCell(1);
-			const locationCell = row.insertCell(2);
-			const timeCell = row.insertCell(3);
-			const typeCell = row.insertCell(4);
+			const includeCell = row.insertCell(-1);
+			const classTitleCell = row.insertCell(-1);
+			const daysCell = row.insertCell(-1);
+			const locationCell = row.insertCell(-1);
+			const timeCell = row.insertCell(-1);
+			const typeCell = row.insertCell(-1);
 
-			// Determine type based on keywords in className
+			const checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			checkbox.className = "schedule-include-checkbox";
+			checkbox.checked = true;
+			includeCell.appendChild(checkbox);
+
 			classTitleCell.textContent = className;
 			daysCell.textContent = days.join(", ");
 			locationCell.textContent = location;
@@ -172,8 +196,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			// fill type cell
 			let newType = document.getElementById("type_select_ex").cloneNode(true);
-			typeCell.appendChild(newType);
 			newType.style.display = "inline-block";
+			typeCell.appendChild(newType);
 		}
 
 		table.style.display = "block";
@@ -218,25 +242,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	}
 
-	function updateTimes(table, offsetMinutes) { // offsetMinutes: +10 for berkeleytime, -10 for normal time
-		for(const row of table.rows){
-			const timeCell = row.cells[3];
-			if(!timeCell) continue; // skip header
-			const timeText = timeCell.textContent;
-			const [startTime, endTime] = timeText.split(" - ");
-			if(startTime == undefined || endTime == undefined){
-				continue
-			}
-			// debug: alert(startTime + " " + endTime)
-			// lets be real, no class is probably going to start 12:50, so we probably won't have to roll over the pms
-			// handle it just for redundancy's sake
-
-			// don't gotta roll over endtime
-			const newStartTime = rollOverTime(startTime, offsetMinutes);
-			timeCell.textContent = `${newStartTime} - ${endTime}`;
-			
-		}
-	}
+	function updateTimes(table, offsetMinutes) {
+        for(const row of table.rows){
+            if(row.rowIndex === 0) continue;
+            const timeCell = row.cells[4];
+            if(!timeCell) continue;
+            const timeText = timeCell.textContent;
+            const [startTime, endTime] = timeText.split(" - ");
+            if(!startTime || !endTime){
+                continue;
+            }
+            const newStartTime = rollOverTime(startTime, offsetMinutes);
+            timeCell.textContent = `${newStartTime} - ${endTime}`;
+        }
+    }
 
 	// handle berkeley time checkbox
 	document.getElementById("berkeleytime-checkbox").addEventListener("change", function(e) {
