@@ -49,7 +49,7 @@ function getClassesFromTable(){
             /// console.log(child.innerText)
 
             // if it's the CRN, we start the counter
-            if(isCRN(child.innerText) && vals_since_crn == -1){
+            if(isCRN(child.innerText) && vals_since_crn == -1){ // <- that line single-handedly fixed the missing classes bug
                 vals_since_crn=0
                 cur_crn = child.innerText
                 class_object[cur_crn] = []

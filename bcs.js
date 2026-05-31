@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	const SEMESTER_START_END = {
 		"fa25": {start: "08/27/2025", end: "12/20/2025"},
 		"sp26": {start: "01/19/2026", end: "05/11/2026"},
+		"su26_session_c": {start: "06/16/2026", end: "08/15/2026"},
+		"fa26": {start: "08/25/2026", end: "12/18/2026"}
 	};
 	const COMMON_ABBREVIATIONS = {"Mathematics": "MATH", "Computer Science": "CS", "Electrical Engineering": "EECS", "Data Science, Undergraduate": "DATA", "Statistics": "STAT",
 		"Economics": "ECON", "Molecular and Cell Biology": "MCB", "Chemical and Biomolecular Engineering": "CBE", "Physics": "PHYS",
