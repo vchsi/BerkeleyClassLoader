@@ -194,10 +194,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			checkbox.checked = true;
 			includeCell.appendChild(checkbox);
 
-			classTitleCell.textContent = className;
+			classTitleCell.innerHTML = className.replace(/,\s*/g, ',<br>');
 			daysCell.textContent = days.join(", ");
 			locationCell.textContent = location;
-			timeCell.textContent = `${startTime} - ${rollOverTime(endTime, 1)}`; // just to make it clean
+			timeCell.innerHTML = `${startTime}<br>${rollOverTime(endTime, 1)}`;
 
 			// fill type cell
 			let newType = document.getElementById("type_select_ex").cloneNode(true);
@@ -252,13 +252,12 @@ document.addEventListener("DOMContentLoaded", function() {
             if(row.rowIndex === 0) continue;
             const timeCell = row.cells[4];
             if(!timeCell) continue;
-            const timeText = timeCell.textContent;
-            const [startTime, endTime] = timeText.split(" - ");
+            const [startTime, endTime] = timeCell.innerHTML.split("<br>");
             if(!startTime || !endTime){
                 continue;
             }
-            const newStartTime = rollOverTime(startTime, offsetMinutes);
-            timeCell.textContent = `${newStartTime} - ${endTime}`;
+            const newStartTime = rollOverTime(startTime.trim(), offsetMinutes);
+            timeCell.innerHTML = `${newStartTime}<br>${endTime}`;
         }
     }
 

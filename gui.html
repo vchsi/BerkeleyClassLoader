@@ -12,63 +12,112 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    
     <title>Berkeley Class Loader</title>
 </head>
 <body>
+
     <div id="top-message-container">Message test.</div>
-    <h1>Berkeley Class Loader<span id="title-version-no">v3 beta</span></h1>
-    <select id="type_select_ex" class="type_select" style="display: none;">
-        <option value="lecture" selected>Lecture</option>
-        <option value="lab">Lab</option>
-        <option value="discussion">Discussion</option>
-        <option value="seminar">Seminar</option>
-        <option value="decal">DeCal</option>
-    </select>
-    <div id="semester-select">
-        <label for="semester">Select Semester:</label>
-        <select id="semester" name="semester">
-            <option value="su26_session_c" selected>Summer 2026 Session C</option>
-            <option value="fa26">Fall 2026</option>
+
+    <div class="popup-shell">
+
+        <!-- Header -->
+        <div class="header-card">
+            <h1>Berkeley Class Loader<span id="title-version-no">v3 beta</span></h1>
+            <p class="header-sub">Schedule → Calendar in one click</p>
+        </div>
+
+        <!-- Hidden type select clone source -->
+        <select id="type_select_ex" class="type_select" style="display: none;">
+            <option value="lecture" selected>Lecture</option>
+            <option value="lab">Lab</option>
+            <option value="discussion">Discussion</option>
+            <option value="seminar">Seminar</option>
+            <option value="decal">DeCal</option>
         </select>
-    </div>
-    <button id="convert">Click this to convert your schedule. (Make sure to load a schedule first!)</button>
-    <div id="schedule-overview">
-        <table id="schedule" class="initially-hidden">
-            <thead>
-                <tr>
-                    <th>Class Title</th>
-                    <th>Day</th>
-                    <th>Location</th>
-                    <th>Time</th>
-                    <th>Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Schedule rows will be populated here -->
-            </tbody>
-        </table>
-    </div>
-    <div id="berkeleytime-box" class="initially-hidden">
-        <input type="checkbox" id="berkeleytime-checkbox">
-        <label for="berkeleytime-checkbox">use <b style="color: blue">Berkeley</b><b style="color: gold">Time</b> (starts 10 minutes after)</label>
-    </div>
-    <div id="export-button-container">
-        <button id="exportToCalendar" style="display: none;">Export to Google Calendar</button>
-        <button id="exportToIcal" style="display: none;">Export to Apple Calendar</button>
-    </div>
-    <hr>
-    <div class="notes">
-        <span id="version-number">v6.7.3a</span> | 
-        <span id="faq-link">Need help?</span> | 
-    </div>
+
+        <!-- Controls -->
+        <div class="controls-card">
+            <div id="semester-select">
+                <label for="semester">Semester</label>
+                <select id="semester" name="semester">
+                    <option value="su26_session_c" selected>Summer 2026 Session C</option>
+                    <option value="fa26">Fall 2026</option>
+                </select>
+            </div>
+            <button id="convert">
+                <span class="btn-icon">⚡︎</span>
+                Load My Schedule
+            </button>
+        </div>
+
+        <!-- Schedule Table -->
+        <div id="schedule-overview">
+            <table id="schedule" class="initially-hidden">
+                <thead>
+                    <tr>
+                        <th>Class Title</th>
+                        <th>Day</th>
+                        <th>Location</th>
+                        <th>Time</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Schedule rows will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- BerkeleyTime toggle -->
+        <div id="berkeleytime-box" class="initially-hidden">
+            <input type="checkbox" id="berkeleytime-checkbox">
+            <label for="berkeleytime-checkbox">Use <strong class="bt-berkeley">Berkeley</strong><strong class="bt-time">Time</strong> <span class="bt-hint">(starts 10 min after)</span></label>
+        </div>
+
+        <!-- Export Buttons -->
+        <div id="export-button-container">
+            <button id="exportToCalendar" style="display: none;">
+                <svg class="btn-svg" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="4" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M2 8h16" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M6 2v4M14 2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                Google Calendar
+            </button>
+            <button id="exportToIcal" style="display: none;">
+                <svg class="btn-svg" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="4" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M2 8h16" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M6 2v4M14 2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="10" cy="13" r="1.5" fill="currentColor"/>
+                </svg>
+                Apple Calendar
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <hr>
+            <div class="notes">
+                <span id="version-number" style="color:orangered;">v3 beta</span>
+                <span class="notes-sep">·</span>
+                <span id="faq-link">Need help?</span>
+            </div>
+        </div>
+
+    </div><!-- /.popup-shell -->
+
+    <!-- Full-page error overlay -->
     <div id="full-page-blur">
         <div id="full-page-message">
-            <p id="full-page-message-text">Oh no! We can't do anything with this page.<br>
-            <a href="#" id="redirect-to-page">Return to the right page here.</a><br><br>(Make sure to <a href="#" id="login-with-calcentral">login with CalCentral</a>)</p>
-            <br>
+            <p id="full-page-message-text">
+                Head to the Berkeley scheduler first, then open this extension.<br>
+                <a href="#" id="redirect-to-page">Take me there →</a><br><br>
+                (Make sure to <a href="#" id="login-with-calcentral">login with CalCentral</a>)
+            </p>
             <a href="#" id="need-help-blur">Need help?</a>
         </div>
     </div>
+
 </body>
 </html>
