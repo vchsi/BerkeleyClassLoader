@@ -7,6 +7,7 @@
     </h1>
 <img src="md_banner.png">
 </div>
+
 # IMPORTANT
 This extension has not been updated for the Fall 2026 semester; please consider using BerkeleyTime's Scheduler in the meantime.
 
